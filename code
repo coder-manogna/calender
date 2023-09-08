@@ -1,0 +1,56 @@
+import calendar
+import tkinter as tk
+from tkinter import ttk
+
+
+def show_calendar():
+    year_text = year_entry.get()
+    month_text = month_entry.get()
+
+    # Check if year and month inputs are empty
+    if not year_text or not month_text:
+        cal_label.config(text="Please enter a valid year and month.")
+        return
+
+    try:
+        year = int(year_text)
+        month = int(month_text)
+    except ValueError:
+        cal_label.config(text="Please enter valid integers for year and month.")
+        return
+
+    # Check if the year and month are within valid ranges
+    if year < 1 or year > 9999 or month < 1 or month > 12:
+        cal_label.config(text="Please enter valid values for year and month.")
+        return
+
+    cal = calendar.month(year, month)
+    cal_label.config(text=cal)
+
+
+# Create a Tkinter window
+root = tk.Tk()
+root.title("Calendar")
+
+# Create a frame for the calendar
+calendar_frame = ttk.Frame(root)
+calendar_frame.pack()
+
+# Create a label to display the calendar
+cal_label = ttk.Label(calendar_frame, text="", justify="left")
+cal_label.grid(row=0, column=0, padx=10, pady=10, columnspan=7)
+
+# Create entry fields for year and month
+ttk.Label(root, text="Year:").pack()
+year_entry = ttk.Entry(root)
+year_entry.pack()
+
+ttk.Label(root, text="Month:").pack()
+month_entry = ttk.Entry(root)
+month_entry.pack()
+
+# Create a button to update the calendar
+update_button = ttk.Button(root, text="Show Calendar", command=show_calendar)
+update_button.pack()
+
+root.mainloop()
